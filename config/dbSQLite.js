@@ -1,8 +1,19 @@
 const sqlite3 = require('sqlite3').verbose();
+const fs = require('fs');
 const path = require('path');
 
 const connectSQLite = () => {
-  const db = new sqlite3.Database(path.join(__dirname, '../database.db'), (err) => {
+  // Resolve the path to the database file
+  const dbPath = path.join(__dirname, '../../data', 'database.db');
+
+  // Ensure the directory exists
+  const dbDirectory = path.dirname(dbPath);
+  if (!fs.existsSync(dbDirectory)) {
+    fs.mkdirSync(dbDirectory, { recursive: true });
+  }
+
+  // Initialize the SQLite database
+  const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
       console.error('Error connecting to SQLite:', err.message);
       throw err;
@@ -10,6 +21,7 @@ const connectSQLite = () => {
     console.log('Connected to SQLite database.');
   });
 
+  // Create a sample table if it doesn't exist
   db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
