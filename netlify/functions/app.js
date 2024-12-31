@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const connectMongoDB = require('../../config/dbMongo');
 const mongoRoutes = require('../../routes/mongoRoutes');
-// const sqliteRoutes = require('../../routes/sqliteRoutes');
+const sqliteRoutes = require('../../routes/sqliteRoutes');
 const connectSQLite = require('../../config/dbSQLite');
 
 // Initialize Express App
@@ -21,6 +21,6 @@ app.use(express.json());
 
 // Routes
 app.use('/api', mongoRoutes);
-// app.use('/api', sqliteRoutes);
+app.use('/api', sqliteRoutes);
 
 module.exports.handler = serverless(app);
