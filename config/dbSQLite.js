@@ -3,8 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 const connectSQLite = () => {
-  // Resolve the path to the database file
-  const dbPath = path.join(__dirname, '../../data', 'database.db');
+  // Resolve the path to the SQLite database
+  const dbPath = path.join(process.cwd(), 'data', 'database.db');
 
   // Ensure the directory exists
   const dbDirectory = path.dirname(dbPath);
@@ -21,7 +21,7 @@ const connectSQLite = () => {
     console.log('Connected to SQLite database.');
   });
 
-  // Create a sample table if it doesn't exist
+  // Create a table if it doesn't exist
   db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
